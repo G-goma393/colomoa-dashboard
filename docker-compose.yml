@@ -1,0 +1,9 @@
+services:
+  dashboard:
+    build: .
+    container_name: obsidian-dashboard
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./src:/app
+    restart: always

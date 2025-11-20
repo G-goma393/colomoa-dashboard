@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obsidian Dashboard</title>
+    <style>
+        /* Hyprland / Catppuccin Theme Inspired */
+        :root {
+            --bg: #1e1e2e;
+            --card-bg: #313244;
+            --text: #cdd6f4;
+            --accent: #89b4fa;
+            --highlight: #a6e3a1;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'JetBrains Mono', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 5px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .menu {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--highlight);
+        }
+
+        .date {
+            font-size: 0.8em;
+            color: #9399b2;
+            margin-top: 5px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu">
+        <button onclick="loadNews('zenn')">Zenn</button>
+        <button onclick="loadNews('gigazine')">Gigazine</button>
+        <button onclick="loadNews('arch')">Arch Linux</button>
+        <button onclick="window.open('obsidian://advanced-uri?commandid=daily-notes')">📝 Daily Note</button>
+    </div>
+
+    <h2 id="source-title">Latest News</h2>
+    <div id="news-grid" class="news-container">
+        <div class="card">Loading...</div>
+    </div>
+
+    <script>
+        async function loadNews(source) {
+            const grid = document.getElementById('news-grid');
+            const title = document.getElementById('source-title');
+            grid.innerHTML = '<div class="card">Fetching data...</div>';
+            title.innerText = source.toUpperCase();
+
+            try {
+                // PythonサーバからJSONを取得
+                const res = await fetch(`/api/news?source=${source}`);
+                const data = await res.json();
+
+                grid.innerHTML = ''; // クリア
+
+                data.forEach(item => {
+                    const card = document.createElement('a');
+                    card.href = item.link;
+                    card.className = 'card';
+                    card.target = "_blank"; // 外部ブラウザで開く場合
+                    // Obsidian内で開きたい場合は少し工夫が必要ですが、まずは標準で
+
+                    card.innerHTML = `
+                        <div style="font-weight:bold;">${item.title}</div>
+                        <span class="date">${new Date(item.published).toLocaleDateString()}</span>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                grid.innerHTML = `<div class="card" style="color:red">Error: ${e.message}</div>`;
+            }
+        }
+
+        // 初期表示
+        loadNews('zenn');
+    </script>
+</body>
+
+</html>
