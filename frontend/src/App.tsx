@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { Menu } from "./components/Menu";
+import { NewsCard } from "./components/NewsCard";
+import { NewsItem, SourceId } from "./types";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // 状態管理: 現在のソースと、記事リスト
+  const [source, setSource] = useState<SourceId>("gigazine");
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // データ取得関数
+  const fetchNews = async (target: SourceId) => {
+    setLoading(true);
+    try {
+      // Proxy設定のおかげで /api でPythonに繋がる
+      const res = await fetch(`/api/news?source=${target}`);
+      const data = await res.json();
+      setNews(data);
+    } catch (error) {
+      console.error("Failed to fetch news:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // sourceが変わるたびに再取得
+  useEffect(() => {
+    fetchNews(source);
+  }, [source]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <Menu currentSource={source} onSelect={setSource} />
+
+      <h2 className="section-title">{source.toUpperCase()}</h2>
+
+      <div className="news-grid">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          news.map((item, index) => <NewsCard key={index} item={item} />)
+        )}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
