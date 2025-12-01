@@ -69,5 +69,14 @@ viteのローカル開発サーバー(npm run dev)を利用しすべてのアプ
 - [ ] 一面：システムモニター機能｜右列右上
 - [ ] 二面：RSSリーダー機能
 - [ ] 三面：空白｜将来的に機能を追加するためのスペース
+### フェーズ2.1: hello Swiper.js
+Swiper.jsのドキュメントを片手にTypeScript+Reactでシンプルなページを作り土台を用意する。
+【↓】Getting Started
+https://swiperjs.com/get-started
+【↓】API Doc
+https://swiperjs.com/swiper-api
+- [ ] TypeScriptでhellowold
+- [ ] ↑にReactで装飾する
+- [ ] Swiper.jsを加え先程の機能を実装する
 ## フェーズ３：Docker化とホスティング
 NginxサーバーでホストしDockerコンテナ化する。
