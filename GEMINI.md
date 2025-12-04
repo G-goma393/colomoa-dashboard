@@ -75,8 +75,8 @@ Swiper.jsのドキュメントを片手にTypeScript+Reactでシンプルなペ�
 https://swiperjs.com/get-started
 【↓】API Doc
 https://swiperjs.com/swiper-api
-- [ ] TypeScriptでhellowold
-- [ ] ↑にReactで装飾する
-- [ ] Swiper.jsを加え先程の機能を実装する
+- [X] TypeScriptでhellowold
+- [X] ↑にReactで装飾する
+- [X] Swiper.jsを加え先程の機能を実装する
 ## フェーズ３：Docker化とホスティング
 NginxサーバーでホストしDockerコンテナ化する。
