@@ -49,6 +49,18 @@ ObsidianリダイレクトURIで動作する機能の一つでpushとpullコマ�
 **Obsidianプラグイン**  
 - Homepage：起動画面にページを指定するため
 - Custom Frames：WebページをObsidianで扱うため
+
+# アーキテクチャ
+## フロントエンド
+- React + Typescript
+- Swiper.js
+
+
+## バックエンド
+- Docker
+- Nginx
+- Node.js
+
 # 進捗計画
 ## フェーズ１：最小構成で概念検証
 最低限の機能を実装し、最小構成で概念検証を行う。
@@ -80,3 +92,7 @@ https://swiperjs.com/swiper-api
 - [X] Swiper.jsを加え先程の機能を実装する
 ## フェーズ３：Docker化とホスティング
 NginxサーバーでホストしDockerコンテナ化する。
+
+# 気になっていること書き置き
+## Obsidianプラグインでもいいんじゃないか？
+確かにそうなんだよな。軽く調べたらObsidianプラグインもTypeScriptで作るみたいだし、それならやりたいことのほとんどができる。
