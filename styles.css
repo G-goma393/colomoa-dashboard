@@ -1,0 +1,13 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+/* styles.css に追記 */
+.my-plugin-ribbon-class {
+	color: red; /* アイコンを赤くする */
+	transform: rotate(45deg); /* 45度傾ける */
+}
